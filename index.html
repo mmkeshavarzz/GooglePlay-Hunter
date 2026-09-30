@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Play Hunter | داشبورد</title>
+    <!-- اضافه کردن کتابخانه html2canvas و jsPDF برای خروجی گرفتن -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        /* 
+        =========================================
+         Google Play Hunter - UI/UX Design
+         Style: Glassmorphism (40%) + Neomorphism (30%) + Bento Grid (30%)
+         Theme: Pearl White / Deep Dark
+        =========================================
+        */
+        :root {
+            /* Light Theme (Pearl & Pastel) */
+            --bg-color: #fdfbfb;
+            --bg-gradient: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            --glass-bg: rgba(255, 255, 255, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --neo-shadow-1: 8px 8px 16px #d1cdcb, -8px -8px 16px #ffffff;
+            --neo-shadow-inset: inset 4px 4px 8px #d1cdcb, inset -4px -4px 8px #ffffff;
+            --text-main: #2d3436;
+            --text-muted: #636e72;
+            --accent-1: #ff9a9e; /* Pastel Pink */
+            --accent-2: #a18cd1; /* Pastel Purple */
+            --card-radius: 24px;
+        }
+
+        [data-theme="dark"] {
+            /* Dark Theme (Deep Blue Luxury) */
+            --bg-color: #0b0f19;
+            --bg-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            --glass-bg: rgba(16, 24, 39, 0.5);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --neo-shadow-1: 6px 6px 12px #070a11, -6px -6px 12px #0f1421;
+            --neo-shadow-inset: inset 4px 4px 8px #070a11, inset -4px -4px 8px #0f1421;
+            --text-main: #f1f2f6;
+            --text-muted: #a4b0be;
+            --accent-1: #ff4757;
+            --accent-2: #5352ed;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; transition: all 0.3s ease; }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* دکمه‌های کنترل (بالای صفحه) */
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .btn {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text-main);
+            box-shadow: var(--neo-shadow-1);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:active { box-shadow: var(--neo-shadow-inset); transform: scale(0.98); }
+
+        /* باکس اصلی (استوری اینستاگرام) */
+        .export-container {
+            /* ابعاد پایه استوری: 1080x1920 (نسبت 9:16). اینجا با مقیاس کوچکتر نمایش میدیم */
+            width: 405px; 
+            height: 720px; 
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--glass-border);
+            border-radius: var(--card-radius);
+            box-shadow: var(--neo-shadow-1);
+            padding: 25px;
+            display: grid;
+            /* Bento Grid 3x4 Layout */
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: auto 1fr 1fr 1fr auto;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* استایل‌های داخلی بنتو گرید */
+        .bento-header {
+            grid-column: span 2;
+            text-align: center;
+            padding: 15px;
+            border-radius: 16px;
+            background: var(--glass-bg);
+            box-shadow: var(--neo-shadow-inset);
+        }
+
+        .bento-header h1 {
+            font-size: 24px;
+            background: -webkit-linear-gradient(45deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bento-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--neo-shadow-1);
+            text-align: center;
+        }
+
+        .bento-wide {
+            grid-column: span 2;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+
+        .app-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--accent-2);
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .stat-number { font-size: 28px; font-weight: 900; color: var(--accent-1); }
+        .stat-label { font-size: 12px; color: var(--text-muted); }
+
+        /* فوتر شبکه های اجتماعی */
+        .social-footer {
+            margin-top: auto;
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            background: var(--glass-bg);
+            border-radius: 50px;
+            box-shadow: var(--neo-shadow-1);
+        }
+
+        .social-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-main);
+        }
+
+        /* ریسپانسیو */
+        @media (max-width: 500px) {
+            .export-container { width: 90vw; height: 160vw; }
+            .controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- دکمه های کنترلی -->
+    <div class="controls">
+        <button class="btn" id="theme-toggle">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21a9 9 0 1 1 9-9a9.01 9.01 0 0 1-9 9zm0-16.5a7.5 7.5 0 1 0 7.5 7.5A7.51 7.51 0 0 0 12 4.5z"/></svg>
+        </button>
+        <button class="btn" id="export-png">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83l1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+        </button>
+        <button class="btn" id="export-pdf">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-9 12H7v-2h3v2zm5 0h-3v-2h3v2z"/></svg>
+        </button>
+    </div>
+
+    <!-- کانتینر اصلی استوری (Bento + Glass + Neo) -->
+    <div class="export-container" id="story-board">
+        <div class="bento-header">
+            <h1>Google Play Hunter</h1>
+            <p class="stat-label">Daily Top Drops 🚀</p>
+        </div>
+
+        <div class="bento-card">
+            <div class="app-icon"></div>
+            <div class="stat-number">4.8</div>
+            <div class="stat-label">Top App Rating</div>
+        </div>
+
+        <div class="bento-card">
+            <div class="stat-number">120+</div>
+            <div class="stat-label">Apps Hunted</div>
+        </div>
+
+        <div class="bento-card bento-wide">
+            <div>
+                <div class="stat-number">#1</div>
+                <div class="stat-label">Action Games</div>
+            </div>
+            <div>
+                <div class="stat-number">#1</div>
+                <div class="stat-label">Productivity</div>
+            </div>
+        </div>
+
+        <div class="bento-card bento-wide" style="grid-row: span 1;">
+            <p style="font-weight: bold; font-size: 18px;">🔥 Today's Best Pick</p>
+            <p class="stat-label">"Nova Launcher Prime"</p>
+        </div>
+    </div>
+
+    <!-- شبکه های اجتماعی در فوتر صفحه -->
+    <div class="social-footer">
+        <!-- Instagram -->
+        <a href="https://instagram.com/mm.keshavarzz" class="social-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+        <!-- Telegram -->
+        <a href="https://t.me/ke_mim_mim" class="social-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.19-.08-.05-.19-.02-.27 0-.12.03-1.99 1.26-5.61 3.71-.53.36-1.01.54-1.44.53-.47-.01-1.38-.27-2.06-.49-.83-.27-1.49-.42-1.43-.88.03-.24.34-.49.95-.75 3.73-1.62 6.22-2.69 7.47-3.21 3.55-1.47 4.29-1.73 4.77-1.74.11 0 .35.03.48.14.11.09.14.22.15.34.01.07.01.16 0 .22z"/></svg>
+        </a>
+        <!-- X (Twitter) -->
+        <a href="https://twitter.com/s_keshavarz" class="social-icon">
+            <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+    </div>
+
+    <script>
+        // ==========================================
+        // 🧠 سیستم مدیریت تم و ذخیره‌سازی ابدی
+        // ==========================================
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        // بررسی localStorage (اگه قبلا دارک بوده، همون بمونه)
+        if (localStorage.getItem('theme') === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // ==========================================
+        // 📸 سیستم خروجی استوری 16:9
+        // ==========================================
+        const getFileName = (ext) => {
+            const today = new window.Intl.DateTimeFormat('fa-IR').format(new Date()).replace(/\//g, '-');
+            return `PlayHunter-Story-${today}.${ext}`;
+        };
+
+        const targetNode = document.getElementById('story-board');
+
+        // خروجی PNG
+        document.getElementById('export-png').addEventListener('click', () => {
+            html2canvas(targetNode, {
+                scale: 3, // کیفیت بالا (3 برابر)
+                useCORS: true,
+                backgroundColor: null 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = getFileName('png');
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        });
+
+        // خروجی PDF (در ابعاد 1080x1920)
+        document.getElementById('export-pdf').addEventListener('click', () => {
+            html2canvas(targetNode, { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                // ابعاد استوری اینستا (9 در 16) بر حسب میلی‌متر
+                const pdf = new jsPDF({
+                    orientation: "portrait",
+                    unit: "px",
+                    format: [1080, 1920]
+                });
+                pdf.addImage(imgData, 'PNG', 0, 0, 1080, 1920);
+                pdf.save(getFileName('pdf'));
+            });
+        });
+    </script>
+</body>
+</html>
