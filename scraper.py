@@ -115,53 +115,47 @@ def send_to_telegram(category_name, top_apps, new_apps):
 # =============================================================================
 # 🕵️‍♂️ موتور اصلی جستجو
 # =============================================================================
+# این بخش رو جایگزین تابع main قبلی کن
+from google_play_scraper import search, Sort # این ایمپورت ها رو یادت نره
+
 def main():
     print("🕵️‍♂️ در حال نفوذ به سرورهای گوگل برای استخراج اپلیکیشن‌ها...")
     os.makedirs("categories", exist_ok=True)
     
     all_data_summary = {}
 
-    for category, query in SEARCH_QUERIES.items():
+    # اینجا دیگه از OFFICIAL_CATEGORIES استفاده می‌کنیم
+    for category in OFFICIAL_CATEGORIES:
         print(f"🔍 در حال جستجو برای: {category}...")
         try:
-            # جستجو در گوگل پلی
-            results = search(
-                query,
-                lang="en",  # زبان
-                country="us", # کشور
-                n_hits=MAX_RESULTS_PER_QUERY
+            # ۱. گرفتن برنامه‌های برتر
+            top_results = search(
+                category,
+                lang="en",
+                country="us",
+                n_hits=MAX_RESULTS_PER_CATEGORY
             )
             
-            clean_results = []
-            for res in results:
-                clean_results.append({
-                    "title": res.get("title"),
-                    "appId": res.get("appId"),
-                    "developer": res.get("developer"),
-                    "score": round(res.get("score", 0), 1) if res.get("score") else "N/A",
-                    "icon": res.get("icon"),
-                    "link": f"https://play.google.com/store/apps/details?id={res.get('appId')}"
-                })
+            # ۲. گرفتن برنامه‌های جدید (با تغییر مرتب‌سازی)
+            new_results = search(
+                category,
+                lang="en",
+                country="us",
+                n_hits=MAX_RESULTS_PER_CATEGORY,
+                sort=Sort.NEWEST # برای گرفتن جدیدترین ها
+            )
             
-            # ذخیره در فایل JSON برای استفاده‌های بعدی یا ساخت وب‌سایت
-            with open(f"categories/{category}.json", "w", encoding="utf-8") as f:
-                json.dump(clean_results, f, ensure_ascii=False, indent=4)
-                
-            all_data_summary[category] = len(clean_results)
-            
-            # ارسال 5 تای برتر به تلگرام
-            if clean_results:
-                send_to_telegram(category, clean_results)
-                time.sleep(2) # یه نفس عمیق که تلگرام بلاک نکنه
+            # اینجا می‌تونی دیتای تمیز رو استخراج کنی (مثل کد قبلیت)
+            # و بعد بفرستی برای تلگرام:
+            send_to_telegram(category, top_results, new_results)
+            import time
+            time.sleep(2) # یه نفس عمیق
                 
         except Exception as e:
             print(f"❌ خطا در استخراج {category}: {e}")
 
-    # یه فایل لاگ کلی هم می‌سازیم
-    with open("last_update.json", "w", encoding="utf-8") as f:
-        json.dump({"updated_at": time.strftime("%Y-%m-%d %H:%M:%S"), "stats": all_data_summary}, f, indent=4)
-        
     print("🎉 عملیات با موفقیت به پایان رسید! گوگل رسماً غارت شد.")
 
 if __name__ == "__main__":
     main()
+
