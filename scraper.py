@@ -4,8 +4,8 @@
 *  Author: mm.keshavarz | Crafted by Senior Assistant
 *  Features:
 *    - Multi-Category App Scraper (Action, Tools, VPN, etc.)
-*    - Dynamic Data Extraction (Title, Rating, Installs, Direct Link)
-*    - Clean folder structuring (JSON/Markdown)
+*    - Anti-Ban Delay System (Bypassing 429 errors)
+*    - NoneType Exception Handling for unrated apps
 *    - 🚀 Auto-Broadcast Top Apps to Telegram!
 =============================================================================
 """
@@ -13,10 +13,11 @@
 import os
 import requests
 import time
+import random
 from google_play_scraper import search
 
 # ==============================================================================
-# 🎯 دسته‌بندی‌های رسمی گوگل‌پلی (بیش از 30 دسته اصلی بازی و اپلیکیشن)
+# 🎯 دسته‌بندی‌های رسمی گوگل‌پلی
 # ==============================================================================
 OFFICIAL_CATEGORIES = [
     # 📱 اپلیکیشن‌ها
@@ -36,21 +37,22 @@ OFFICIAL_CATEGORIES = [
 MAX_RESULTS_PER_CATEGORY = 30
 
 # =============================================================================
-# 🚀 ارسال به تلگرام (مخصوص اپلیکیشن‌های بالای ۴ ستاره و خفن)
+# 🚀 ارسال به تلگرام
 # =============================================================================
 def send_to_telegram(category_name, top_apps, new_apps):
     bot_token = os.environ.get("TELEGRAM_TOKEN")
     channel_id = os.environ.get("TELEGRAM_CHANNEL")
 
     if not bot_token or not channel_id:
-        print("⚠️ داداش، توکن تلگرام یا آیدی کانال تنظیم نیست! من چطوری پیام بفرستم آخه؟ 🤷‍♂️")
+        print("⚠️ توکن تلگرام یا آیدی کانال تنظیم نیست!")
         return
 
-    premium_top = [app for app in top_apps if app.get('score', 0) >= 4.0][:10]
-    premium_new = [app for app in new_apps if app.get('score', 0) >= 4.0][:10]
+    # 🛡️ حل باگ NoneType: استفاده از (app.get('score') or 0)
+    premium_top = [app for app in top_apps if (app.get('score') or 0) >= 4.0][:10]
+    premium_new = [app for app in new_apps if (app.get('score') or 0) >= 4.0][:10]
 
     if not premium_top and not premium_new:
-        print(f"👻 برای دسته {category_name} هیچ اپلیکیشن بالای 4 ستاره‌ای پیدا نشد! عبور می‌کنیم...")
+        print(f"👻 برای دسته {category_name} اپلیکیشن بالای 4 ستاره پیدا نشد!")
         return
 
     msg = f"🗂 **Category:** #{category_name.replace('_', '')}\n"
@@ -61,7 +63,7 @@ def send_to_telegram(category_name, top_apps, new_apps):
         msg += f"🏆 **Top 10 Best Apps:**\n"
         for idx, app in enumerate(premium_top, 1):
             title = app.get('title', 'Unknown')
-            score = app.get('score', 'N/A')
+            score = app.get('score') or 0
             app_id = app.get('appId', '')
             play_link = f"https://play.google.com/store/apps/details?id={app_id}"
             msg += f"{idx}. **[{title}]({play_link})** (⭐ {score:.1f})\n"
@@ -71,7 +73,7 @@ def send_to_telegram(category_name, top_apps, new_apps):
         msg += f"✨ **Top 10 New Releases:**\n"
         for idx, app in enumerate(premium_new, 1):
             title = app.get('title', 'Unknown')
-            score = app.get('score', 'N/A')
+            score = app.get('score') or 0
             app_id = app.get('appId', '')
             play_link = f"https://play.google.com/store/apps/details?id={app_id}"
             msg += f"{idx}. **[{title}]({play_link})** (⭐ {score:.1f})\n"
@@ -91,12 +93,12 @@ def send_to_telegram(category_name, top_apps, new_apps):
         response = requests.post(url, json=payload, timeout=10)
         
         if response.status_code == 200:
-            print(f"✅ بوم! دسته‌بندی {category_name} با موفقیت به تلگرام شلیک شد! 🎯")
+            print(f"✅ دسته‌بندی {category_name} به تلگرام شلیک شد! 🎯")
         else:
-            print(f"❌ ای بابا! تلگرام ناز کرد. کد خطا: {response.status_code}")
+            print(f"❌ خطای تلگرام. کد: {response.status_code}")
             
     except Exception as e:
-        print(f"❌ وایسا ببینم... یه خطای عجیب برای {category_name} پیش اومد: {e}")
+        print(f"❌ خطای ارسال به تلگرام برای {category_name}: {e}")
 
 # =============================================================================
 # 🕵️‍♂️ موتور اصلی جستجو
@@ -106,9 +108,8 @@ def main():
     os.makedirs("categories", exist_ok=True)
     
     for category in OFFICIAL_CATEGORIES:
-        print(f"🔍 در حال جستجو برای: {category}...")
+        print(f"🔍 جستجو برای: {category}...")
         try:
-            # ۱. گرفتن برنامه‌های برتر (بدون تغییر)
             top_results = search(
                 category,
                 lang="en",
@@ -116,8 +117,6 @@ def main():
                 n_hits=MAX_RESULTS_PER_CATEGORY
             )
             
-            # ۲. گرفتن برنامه‌های جدید 
-            # 💡 باگ برطرف شد: چون search آرگومان sort نداره، از کلمه کلیدی 'new' تو کوئری استفاده کردیم!
             new_results = search(
                 f"{category} new",
                 lang="en",
@@ -126,12 +125,16 @@ def main():
             )
             
             send_to_telegram(category, top_results, new_results)
-            time.sleep(2) # یه نفس عمیق برای اینکه گوگل بلاک نکنه
+            
+            # 🛡️ حل باگ ۴۲۹ (Rate Limit): استراحت تصادفی بین 4 تا 7 ثانیه تا گوگل شک نکنه
+            sleep_time = random.uniform(4.0, 7.0)
+            print(f"💤 استراحت برای {sleep_time:.1f} ثانیه...")
+            time.sleep(sleep_time)
                 
         except Exception as e:
             print(f"❌ خطا در استخراج {category}: {e}")
 
-    print("🎉 عملیات با موفقیت به پایان رسید! گوگل رسماً غارت شد.")
+    print("🎉 عملیات به پایان رسید! گوگل با موفقیت غارت شد. 😎")
 
 if __name__ == "__main__":
     main()
