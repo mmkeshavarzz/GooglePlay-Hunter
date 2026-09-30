@@ -11,62 +11,106 @@
 """
 
 import os
-import json
-import time
 import requests
-from google_play_scraper import search
 
 # ==============================================================================
-# 🎯 کلمات کلیدی و دسته‌بندی‌هایی که می‌خوایم شکار کنیم
+# 🎯 دسته‌بندی‌های رسمی گوگل‌پلی (بیش از 30 دسته اصلی بازی و اپلیکیشن)
 # ==============================================================================
-SEARCH_QUERIES = {
-    "VPN_Proxies": "VPN Free Proxy",
-    "Action_Games": "Best Action Games",
-    "Crypto_Wallets": "Crypto Wallet Bitcoin",
-    "Fitness": "Home Workout",
-    "Messengers": "Secure Messenger"
-}
+# 💡 نکته سینیور: تو پایتون اگه از کتابخونه google_play_scraper استفاده می‌کنی، 
+# می‌تونی از ماژول Category یا همین اسم‌های استاندارد برای جستجوی دقیق‌تر استفاده کنی!
+OFFICIAL_CATEGORIES = [
+    # 📱 اپلیکیشن‌ها
+    "ART_AND_DESIGN", "AUTO_AND_VEHICLES", "BEAUTY", "BOOKS_AND_REFERENCE", 
+    "BUSINESS", "COMICS", "COMMUNICATION", "DATING", "EDUCATION", "ENTERTAINMENT", 
+    "EVENTS", "FINANCE", "FOOD_AND_DRINK", "HEALTH_AND_FITNESS", "HOUSE_AND_HOME", 
+    "LIFESTYLE", "MAPS_AND_NAVIGATION", "MEDICAL", "MUSIC_AND_AUDIO", 
+    "NEWS_AND_MAGAZINES", "PARENTING", "PERSONALIZATION", "PHOTOGRAPHY", 
+    "PRODUCTIVITY", "SHOPPING", "SOCIAL", "SPORTS", "TOOLS", "TRAVEL_AND_LOCAL", 
+    "VIDEO_PLAYERS", "WEATHER",
+    # 🎮 بازی‌ها
+    "GAME_ACTION", "GAME_ADVENTURE", "GAME_ARCADE", "GAME_BOARD", "GAME_CARD", 
+    "GAME_CASINO", "GAME_CASUAL", "GAME_EDUCATIONAL", "GAME_MUSIC", "GAME_PUZZLE", 
+    "GAME_RACING", "GAME_ROLE_PLAYING", "GAME_SIMULATION", "GAME_SPORTS", "GAME_STRATEGY"
+]
 
-MAX_RESULTS_PER_QUERY = 15 # چندتا اپ برای هر دسته پیدا کنه؟
+MAX_RESULTS_PER_CATEGORY = 30 # یه ذره بیشتر می‌گیریم که بعد از فیلتر، حداقل 10 تا بمونه!
 
 # =============================================================================
-# 🚀 ارسال به تلگرام (مخصوص اپلیکیشن‌ها)
+# 🚀 ارسال به تلگرام (مخصوص اپلیکیشن‌های بالای ۴ ستاره و خفن)
 # =============================================================================
-def send_to_telegram(category_name, apps):
+def send_to_telegram(category_name, top_apps, new_apps):
+    """
+    تابع ارسال پیام به تلگرام. 
+    توجه: اپلیکیشن‌هایی به این تابع پاس داده می‌شن که از قبل تو اسکریپت اصلی 
+    فیلتر شدن (مثلا فقط بالای 4 ستاره هستن).
+    """
     bot_token = os.environ.get("TELEGRAM_TOKEN")
     channel_id = os.environ.get("TELEGRAM_CHANNEL")
 
     if not bot_token or not channel_id:
-        print("⚠️ داداش، توکن تلگرام یا آیدی کانال تنظیم نیست! بی‌خیال ارسال شدم...")
+        print("⚠️ داداش، توکن تلگرام یا آیدی کانال تنظیم نیست! من چطوری پیام بفرستم آخه؟ 🤷‍♂️")
         return
 
-    # یه متن جذاب برای تلگرام
-    msg = f"📱 **Category:** #{category_name}\n"
-    msg += f"🔥 **Top New Picks Handpicked For You!**\n\n"
+    # فیلتر کردن اپ‌هایی که امتیازشون بالای 4 هست (محض اطمینان مضاعف)
+    premium_top = [app for app in top_apps if app.get('score', 0) >= 4.0][:10]
+    premium_new = [app for app in new_apps if app.get('score', 0) >= 4.0][:10]
 
-    # اضافه کردن تاپ 5 اپلیکیشن به پیام
-    for app in apps[:5]:
-        title = app.get('title', 'Unknown')
-        score = app.get('score', 'N/A')
-        app_id = app.get('appId', '')
-        play_link = f"https://play.google.com/store/apps/details?id={app_id}"
-        
-        msg += f"🔹 **{title}** (⭐ {score})\n"
-        msg += f"📥 [Download on Google Play]({play_link})\n\n"
+    # اگه هیچ اپی پیدا نشد، ضایع بازی در نیاریم و پیام خالی نفرستیم!
+    if not premium_top and not premium_new:
+        print(f"👻 برای دسته {category_name} هیچ اپلیکیشن بالای 4 ستاره‌ای پیدا نشد! عبور می‌کنیم...")
+        return
 
-    msg += f"🤖 *Auto-Hunted by Your GitHub Bot*"
+    # یه متن جذاب و لاکچری برای تلگرام
+    msg = f"🗂 **Category:** #{category_name.replace('_', '')}\n"
+    msg += f"🔥 **Top Premium Picks (⭐️ 4.0+)**\n"
+    msg += f"━━━━━━━━━━━━━━━━━━\n\n"
 
+    # بخش اول: 10 اپلیکیشن برتر کلی
+    if premium_top:
+        msg += f"🏆 **Top 10 Best Apps:**\n"
+        for idx, app in enumerate(premium_top, 1):
+            title = app.get('title', 'Unknown')
+            score = app.get('score', 'N/A')
+            app_id = app.get('appId', '')
+            play_link = f"https://play.google.com/store/apps/details?id={app_id}"
+            
+            msg += f"{idx}. **[{title}]({play_link})** (⭐ {score:.1f})\n"
+        msg += "\n"
+
+    # بخش دوم: 10 اپلیکیشن برتر جدید
+    if premium_new:
+        msg += f"✨ **Top 10 New Releases:**\n"
+        for idx, app in enumerate(premium_new, 1):
+            title = app.get('title', 'Unknown')
+            score = app.get('score', 'N/A')
+            app_id = app.get('appId', '')
+            play_link = f"https://play.google.com/store/apps/details?id={app_id}"
+            
+            msg += f"{idx}. **[{title}]({play_link})** (⭐ {score:.1f})\n"
+        msg += "\n"
+
+    msg += f"━━━━━━━━━━━━━━━━━━\n"
+    msg += f"🤖 *Auto-Hunted with ❤️ by Our GitHub Bot*"
+
+    # ارسال نهایی به تلگرام
     try:
         url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
         payload = {
             "chat_id": channel_id,
             "text": msg,
             "parse_mode": "Markdown",
-            "disable_web_page_preview": True
+            "disable_web_page_preview": True # پیش‌نمایش لینک‌ها رو می‌بندیم که پیام شلوغ نشه
         }
-        requests.post(url, json=payload, timeout=10)
+        response = requests.post(url, json=payload, timeout=10)
+        
+        if response.status_code == 200:
+            print(f"✅ بوم! دسته‌بندی {category_name} با موفقیت به تلگرام شلیک شد! 🎯")
+        else:
+            print(f"❌ ای بابا! تلگرام ناز کرد. کد خطا: {response.status_code}")
+            
     except Exception as e:
-        print(f"❌ ای بابا! خطای تلگرام برای {category_name}: {e}")
+        print(f"❌ وایسا ببینم... یه خطای عجیب برای {category_name} پیش اومد: {e}")
+
 
 # =============================================================================
 # 🕵️‍♂️ موتور اصلی جستجو
