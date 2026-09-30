@@ -1,0 +1,122 @@
+[
+    {
+        "title": "Bitcoin.com: Crypto Wallet",
+        "appId": "com.bitcoin.mwallet",
+        "developer": "Bitcoin.com Developer",
+        "score": 4.7,
+        "icon": "https://play-lh.googleusercontent.com/-p8YFSq-qqx25K-D-0mUuUTIVAxWZob7_iAQ6NbAic6uLy8vX_mwApmFGnUY54Nf9uUz-u3soyiUkDPR30udFA",
+        "link": "https://play.google.com/store/apps/details?id=com.bitcoin.mwallet"
+    },
+    {
+        "title": "Blockchain Wallet: Buy BTC",
+        "appId": "piuk.blockchain.android",
+        "developer": "Blockchain.com",
+        "score": 4.0,
+        "icon": "https://play-lh.googleusercontent.com/HWB1THm-W7TI0j6pK6Y2FCX3jYl3SHCQBuNTW7HBR-3DcH9AAuG2mLYhwmJDj3H4fV70X2DfEBXwwv2UBS5c",
+        "link": "https://play.google.com/store/apps/details?id=piuk.blockchain.android"
+    },
+    {
+        "title": "Trust: Crypto & Bitcoin Wallet",
+        "appId": "com.wallet.crypto.trustapp",
+        "developer": "DApps Platform, Inc.",
+        "score": 4.5,
+        "icon": "https://play-lh.googleusercontent.com/0o3eb1pFP5LMvfnjbNIO18-090KB8CCCktck3h7lWcYEP4Q7h9pV13qOyEyBDEIkGzuBlmL8MN9ziDH-u08B",
+        "link": "https://play.google.com/store/apps/details?id=com.wallet.crypto.trustapp"
+    },
+    {
+        "title": "Crypto & Bitcoin Wallet Paybis",
+        "appId": "com.paybis",
+        "developer": "PAYBIS",
+        "score": 4.6,
+        "icon": "https://play-lh.googleusercontent.com/RW2FsqJJlLadfZ1XqFWimqEIf2c2R9UCKjOgIhz72nWI3VB70vkYEJqNRgFE5oWI1HETkKNS_lLbrR-ESQ4q1g",
+        "link": "https://play.google.com/store/apps/details?id=com.paybis"
+    },
+    {
+        "title": "Bitcoin Wallet Crypto Ethereum",
+        "appId": "io.atomicwallet",
+        "developer": "Atomic Wallet",
+        "score": 4.4,
+        "icon": "https://play-lh.googleusercontent.com/UxMmO6aVh_TCIQKZB6GIt905LKxIcda6dqug9T_AM76yNjHq6MnKqMfeJjxxh_NclEycaJb1sHTduOxb6R76Ww",
+        "link": "https://play.google.com/store/apps/details?id=io.atomicwallet"
+    },
+    {
+        "title": "Gem Wallet: Bitcoin, USDT, BNB",
+        "appId": "com.gemwallet.android",
+        "developer": "Gem Wallet LLC",
+        "score": 4.5,
+        "icon": "https://play-lh.googleusercontent.com/pO8Eptwu3lE4vjSVZ_nOuwVQc3sphcMueTldk8RTFK6mo1UGyUK3U_wwJMIOwsWvNJXnKBVdtdZM63x9ckvjcQ",
+        "link": "https://play.google.com/store/apps/details?id=com.gemwallet.android"
+    },
+    {
+        "title": "Exodus: Crypto & Payments",
+        "appId": "exodusmovement.exodus",
+        "developer": "Exodus Movement, Inc.",
+        "score": 4.5,
+        "icon": "https://play-lh.googleusercontent.com/fHEgFEETzLAeBSPRFvdSb-3IDqJhWOADxIivOQ5dTxPxXEFKpmlcbkdb2XGJxzy22RpFmqH0BAduwjh-8cZVPoc",
+        "link": "https://play.google.com/store/apps/details?id=exodusmovement.exodus"
+    },
+    {
+        "title": "Edge - Bitcoin & Crypto Wallet",
+        "appId": "co.edgesecure.app",
+        "developer": "Edge (formerly Airbitz)",
+        "score": 4.7,
+        "icon": "https://play-lh.googleusercontent.com/O3q0PyKK9rR5UZ2wqa4ddiLSA8QfWAHkQDD_nJq3WNOrYbOZ965gkCwNrTlwjSstcymFb7iISyRAPGDMLKfoCA",
+        "link": "https://play.google.com/store/apps/details?id=co.edgesecure.app"
+    },
+    {
+        "title": "Coinbase: Buy Crypto & Stocks",
+        "appId": "com.coinbase.android",
+        "developer": "Coinbase Inc",
+        "score": 4.3,
+        "icon": "https://play-lh.googleusercontent.com/0xUsZcZsSX0zdi0DeHI7kLrzG8SP_fG7OV68IKZlIgnw4DVfMBJHNccxxY6AxL2PiOXpmpQVowswjfefHS8_sg",
+        "link": "https://play.google.com/store/apps/details?id=com.coinbase.android"
+    },
+    {
+        "title": "SafePal: Crypto Wallet BTC NFT",
+        "appId": "io.safepal.wallet",
+        "developer": "SafePal Wallet",
+        "score": 4.5,
+        "icon": "https://play-lh.googleusercontent.com/oJySFa2HQ9IQWvUqf9UEjNlrIjpj_K8iKkKZ6VIolwzGa_F-ftSRmXmU6l7HbNLdncfP9omPyflBBFj2ewRaY0A",
+        "link": "https://play.google.com/store/apps/details?id=io.safepal.wallet"
+    },
+    {
+        "title": "MetaMask: Trade Crypto",
+        "appId": "io.metamask",
+        "developer": "MetaMask Web3 Wallet",
+        "score": 4.4,
+        "icon": "https://play-lh.googleusercontent.com/UZYAICbN6huXhWkzjKFxQ-nqWCQy8C4HW3oAmx073m9sAUgI7OAPOuoMeq0Nsn7PcwhrpkUS94Dw-TERq4LOhA",
+        "link": "https://play.google.com/store/apps/details?id=io.metamask"
+    },
+    {
+        "title": "IronWallet: Crypto Wallet",
+        "appId": "com.wallet.crypto.btc.eth",
+        "developer": "INWAY AKTIENGESELLSCHAFT",
+        "score": 4.6,
+        "icon": "https://play-lh.googleusercontent.com/NqsiQFozGZKYjolMCI8LeBKx44LnOeWb_seestOBjtE21AbN07q1WcCzN9bIA2rcvJivY6o9mXGHhP00lkbw6w",
+        "link": "https://play.google.com/store/apps/details?id=com.wallet.crypto.btc.eth"
+    },
+    {
+        "title": "NC Wallet: Crypto Without Fees",
+        "appId": "com.ncwallet",
+        "developer": "NCW Team",
+        "score": 4.2,
+        "icon": "https://play-lh.googleusercontent.com/9zCyUpVyyEcXp-QhME81Wu34cpA44Da596NVJLxCWtkVHoPNXBpHrSEdWSAb8mxxoDdsNK-WQU5nBUbKlsez",
+        "link": "https://play.google.com/store/apps/details?id=com.ncwallet"
+    },
+    {
+        "title": "Coinomi: Crypto Bitcoin Wallet",
+        "appId": "com.coinomi.wallet",
+        "developer": "Coinomi",
+        "score": 4.6,
+        "icon": "https://play-lh.googleusercontent.com/iUm9KZdO7u0hVh_X6pOVxYhk-BJ1mS-onOUFNWaT_x8Xkcwug6a_x-9HhR_Qr3Y1Iqb6JCB_7OsJVdPa--xeDg",
+        "link": "https://play.google.com/store/apps/details?id=com.coinomi.wallet"
+    },
+    {
+        "title": "BlueWallet Bitcoin Wallet",
+        "appId": "io.bluewallet.bluewallet",
+        "developer": "BlueWallet Services S. R. L.",
+        "score": 3.7,
+        "icon": "https://play-lh.googleusercontent.com/bEoxz28wuIo4mAByI0V7Mmo61OrkJYpJQ5GqsLlywZGGw9tZD7rUvKU9fTCYWKJ1yW0Vq4_6-u2CWpgo4wGYlA",
+        "link": "https://play.google.com/store/apps/details?id=io.bluewallet.bluewallet"
+    }
+]

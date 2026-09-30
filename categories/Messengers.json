@@ -1,0 +1,122 @@
+[
+    {
+        "title": "Signal Private Messenger",
+        "appId": "org.thoughtcrime.securesms",
+        "developer": "Signal Foundation",
+        "score": 4.5,
+        "icon": "https://play-lh.googleusercontent.com/HXEs85Okatm4_lZMmCaLFk3iXQ6_lrr00i8nsxaqBRSy6VGnsP7F50dKUfrO37Sj0nxtzSjMpKbjgWh6d0PTyEA",
+        "link": "https://play.google.com/store/apps/details?id=org.thoughtcrime.securesms"
+    },
+    {
+        "title": "Wire - Secure Messenger",
+        "appId": "com.wire",
+        "developer": "Wire Swiss GmbH",
+        "score": 3.5,
+        "icon": "https://play-lh.googleusercontent.com/mUxaJBHHp5w88UpWRXocwMi-ocv0lKdrdSh3Ij4nXZs4tILaJe7jwHxuqVrLLCRK9IZaOYm4JH7AD-hKAI1lDxo",
+        "link": "https://play.google.com/store/apps/details?id=com.wire"
+    },
+    {
+        "title": "Threema. The Secure Messenger",
+        "appId": "ch.threema.app",
+        "developer": "Threema AG",
+        "score": 3.9,
+        "icon": "https://play-lh.googleusercontent.com/BnguYBaEZnKqHvwDHEoJKn-k7FFYSXHyFlzM7e7YwmkalTG5IWVzWQbHgmOciqfIyiHqaeu7cYZofLtt5UdpMk4",
+        "link": "https://play.google.com/store/apps/details?id=ch.threema.app"
+    },
+    {
+        "title": "Session - Private Messenger",
+        "appId": "network.loki.messenger",
+        "developer": "Session Foundation",
+        "score": 4.7,
+        "icon": "https://play-lh.googleusercontent.com/KxSYezXXvC0AYtYxE4BtVOLqrOGDwTzo5dUHSU7Ap5d4yN8sbjEdzwMjSPhzeTnCOrvYLRuW6ismgJ4vLidEZw",
+        "link": "https://play.google.com/store/apps/details?id=network.loki.messenger"
+    },
+    {
+        "title": "Secure - Messenger",
+        "appId": "org.securelegion",
+        "developer": "Secure Legion",
+        "score": "N/A",
+        "icon": "https://play-lh.googleusercontent.com/Q3NXS72ZEucEvpx4TcKBoMcCHeH_9PNXII3Hu9lVD8scHKH0RTeei2uLkBY6ijDkHqHQPIjFnqXGEVVf6BtB",
+        "link": "https://play.google.com/store/apps/details?id=org.securelegion"
+    },
+    {
+        "title": "Messenger",
+        "appId": "com.facebook.orca",
+        "developer": "Meta Platforms, Inc.",
+        "score": 4.7,
+        "icon": "https://play-lh.googleusercontent.com/cuRpiGqvAMkcbAOibD-AKCBagAunUkspQUWC_jVZF2Hob_ODdmkefnZeqkofW1idFQHhgZgnLIjsqT-2v7JKBw",
+        "link": "https://play.google.com/store/apps/details?id=com.facebook.orca"
+    },
+    {
+        "title": "xPal Ultra Secure Messenger",
+        "appId": "com.mess.engerx",
+        "developer": "XPAL.com Corporation",
+        "score": 4.1,
+        "icon": "https://play-lh.googleusercontent.com/PaV3z_20fGhov2M_G2RiBmlzBn_zmE0wNucK_kA5T8NvZEvp_aDhvBO-PO0rRQYmhVpztCUqPOa3ngB_dvTlzw",
+        "link": "https://play.google.com/store/apps/details?id=com.mess.engerx"
+    },
+    {
+        "title": "Secretly: Secure Messenger",
+        "appId": "com.secretly.secretly_app",
+        "developer": "Secretly LLC",
+        "score": "N/A",
+        "icon": "https://play-lh.googleusercontent.com/zTXXjRTOfDvhQ82Fvh6AltPNvoKq-BI_TSezHoLXbAkXRTECjVPGaVPQvL_XXjKzrV59Obijdnc7SBfGdg-GvQ",
+        "link": "https://play.google.com/store/apps/details?id=com.secretly.secretly_app"
+    },
+    {
+        "title": "Zangi - Private Messenger",
+        "appId": "com.beint.zangi",
+        "developer": "Secret Phone, Inc",
+        "score": 4.2,
+        "icon": "https://play-lh.googleusercontent.com/6VLa4LktSk-P-81-jfmQHjjcbSxWxNyJB8Xjmiro5jLO9w_ckQEzzqXS3bBFMGU8uHHA2tMyueKpteIGiEWbng",
+        "link": "https://play.google.com/store/apps/details?id=com.beint.zangi"
+    },
+    {
+        "title": "Skred Messenger",
+        "appId": "mobi.skred.app",
+        "developer": "SKRED",
+        "score": 3.8,
+        "icon": "https://play-lh.googleusercontent.com/mXbFnAXeSw51RC9v7LQ8csmtXCsV-b_KqubH-zaHTHqQat1qNx2N9tvHbBssp4DMhkbb4p2rdc3Dn-djl2nBVdo",
+        "link": "https://play.google.com/store/apps/details?id=mobi.skred.app"
+    },
+    {
+        "title": "Telegram",
+        "appId": "org.telegram.messenger",
+        "developer": "Telegram FZ-LLC",
+        "score": 3.8,
+        "icon": "https://play-lh.googleusercontent.com/PyZ3akMGXPV0tKKirKNwfO--PSQW3FHR6rD_H9mAaukZ8LiHyYFuBLeU8UZ2ok6r5SP79-3prkfybWKh98AZAD0",
+        "link": "https://play.google.com/store/apps/details?id=org.telegram.messenger"
+    },
+    {
+        "title": "Secure Private Messenger",
+        "appId": "com.secure.private.messenger",
+        "developer": "AVS Family Pvt. Ltd.",
+        "score": "N/A",
+        "icon": "https://play-lh.googleusercontent.com/zOSzk_uLPs5Ux2vUN1rfG5k88XkCFmp96cXri6sOq5wm9ddtN2L2Qf6sI3FC8anSYg5ZYVeKo3iwReqCdslHjA",
+        "link": "https://play.google.com/store/apps/details?id=com.secure.private.messenger"
+    },
+    {
+        "title": "NetSfere Secure Messaging",
+        "appId": "com.infinite.netsfere",
+        "developer": "Infinite Convergence Solutions, Inc.",
+        "score": 4.5,
+        "icon": "https://play-lh.googleusercontent.com/FxI_3wiVv_lAVxm51arqSxVlAhcBw0vYnlrxv-8JE5C8V6yBWt8tmKmkMPjsFiLcLx9B0pdeyxr-hAD9g2Yk",
+        "link": "https://play.google.com/store/apps/details?id=com.infinite.netsfere"
+    },
+    {
+        "title": "Secure messaging - call - vyxo",
+        "appId": "com.mazool.vyxo",
+        "developer": "Mazool",
+        "score": "N/A",
+        "icon": "https://play-lh.googleusercontent.com/4oMcwbAR7HvbQDmfvHmT_MVr4fuKU9sHs83CXJFX-dz_uuJv1APpxkfrWe5BzudpTRXVW73T_smpeH0ma3N9MQ",
+        "link": "https://play.google.com/store/apps/details?id=com.mazool.vyxo"
+    },
+    {
+        "title": "Pryvate: Encrypted Messenger",
+        "appId": "net.pryvate",
+        "developer": "Pryvate Technologies Limited",
+        "score": 3.0,
+        "icon": "https://play-lh.googleusercontent.com/7WxXHgu2ShfHaIdiuoVA9KREAiJWFsniB_0sTQYvXiqdLBweZOI7nG7H2YRu5WCzlngQAZD5egjXACrbHAAh",
+        "link": "https://play.google.com/store/apps/details?id=net.pryvate"
+    }
+]
