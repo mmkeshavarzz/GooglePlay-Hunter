@@ -2,7 +2,7 @@ name: Update Play Store Hunter
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # هر 6 ساعت یک بار
+    - cron: '0 23 1 * *' # هر 6 ساعت یک بار
   workflow_dispatch: # دکمه اجرای دستی
 
 jobs:
